@@ -1,0 +1,2 @@
+class DBSaver:
+    pass
