@@ -1,5 +1,5 @@
 import logging
-from typing import List
+import mypy.api
 
 from abc import ABCMeta, abstractmethod
 from collections import defaultdict
@@ -46,7 +46,10 @@ class APIResponseParser(meta=ABCMeta):
         pass
 
     def parse_batch(self, batch: BatchResponse) -> BatchResponse:
-        pass
+        batch.map(prepare_sample)
+        batch.map(check_sample)
+        batch.applymap()
+        return batch
 
 
 class VacanciesAPIResponseParser(APIResponseParser):
