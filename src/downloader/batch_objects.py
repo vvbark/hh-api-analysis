@@ -8,8 +8,20 @@ class BatchResponse:
         return self.batch.__str__()
     
     def __repr__(self):
-        return self.batch.__repr__()
-    
+        result = ''
+        for sample in self.batch:
+            inner_lines = '\n'.join('%s : %s' % (k, v) for k, v in sample.items())
+            result += """\
+{
+%s
+}
+""" % inner_lines
+        return """\
+(
+%s
+)
+""" % result
+            
     def __len__(self):
         return len(self.batch)
 
