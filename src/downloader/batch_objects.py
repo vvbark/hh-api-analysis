@@ -13,7 +13,7 @@ class BatchResponse:
     def __iter__(self):
         return iter(self.batch)
 
-    def map(self, func: function) -> None:
+    def map(self, func: object) -> None:
         if not self._iterator:
             self._iterator = map(func, self.batch)
         else:
