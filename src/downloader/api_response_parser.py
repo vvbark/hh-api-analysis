@@ -53,7 +53,7 @@ class APIResponseParser(metaclass=ABCMeta):
 
     def parse_batch(self, batch: BatchResponse) -> BatchResponse:
         batch.map(self.prepare_sample)
-#         batch.map(self.check_sample)
+#         batch.map(self.check_sample)  # если мы хотим делать проверку типов
         batch = batch.applymap()
         logger.info(f'batch with length {len(batch)} parsed successfully')
         return batch
