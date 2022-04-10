@@ -13,15 +13,21 @@ logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s', level=loggin
 logger = logging.getLogger(__name__)
 
 
-class APIResponseParser(meta=ABCMeta):
+class APIResponseParser(metaclass=ABCMeta):
 
     def __init__(self, types: dict = VACANCY_TYPES) -> None:
         self.types = types
         self.fields = tuple(types.keys())
 
     def map_fields(self, sample: dict) -> dict:
-        temp_default_dict = defaultdict(lambda: None, sample)
-        return {key: d[key] for key in fields}
+        default_dict = defaultdict(lambda: None, sample)
+        result = {}
+        for key in self.fields:
+            try:
+                result[key] = eval(self.types[key])(default_dict[key])
+            except:
+                result[key] = default_dict[key]
+        return result
 
     @staticmethod
     def check_type(value, typ: str) -> bool:
@@ -46,9 +52,10 @@ class APIResponseParser(meta=ABCMeta):
         pass
 
     def parse_batch(self, batch: BatchResponse) -> BatchResponse:
-        batch.map(prepare_sample)
-        batch.map(check_sample)
-        batch.applymap()
+        batch.map(self.prepare_sample)
+#         batch.map(self.check_sample)
+        batch = batch.applymap()
+        logger.info(f'batch with length {len(batch)} parsed successfully')
         return batch
 
 
@@ -84,7 +91,7 @@ class VacanciesAPIResponseParser(APIResponseParser):
         for key, dict_value in sample.items():
             if dict_value == None:
                 continue
-
+            logger.info(f'field {key} passed checking')
             if not self.check_type(dict_value, self.types[key]):
-                logger.error(f'Parsing failed on type checking. Type of `{key}` field: {type(dict_value)} != {type(self.types[key])}.')
+                logger.error(f'Parsing failed on type checking. Type of `{key}` field: {type(dict_value).__name__} != {self.types[key]}.')
                 raise TypeError('Fields does not match.')
