@@ -1,6 +1,8 @@
 import os
 
 
+DATE_REGEX = '%Y-%m-%dT%X%z'
+
 CLICKHOUSE_PARAMS = {
     'host': 'localhost',
     'user': os.getenv('HH_API_USERNAME'),
