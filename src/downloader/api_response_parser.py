@@ -7,7 +7,6 @@ logger = logging.getLogger(__name__)
 
 
 class APIResponseParser:
-
     def __init__(self, types):
         self.types = types
 
