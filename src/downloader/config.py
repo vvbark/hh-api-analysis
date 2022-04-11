@@ -1,11 +1,6 @@
 import os
 
 
-non_type = lambda x: x
-
-
-DATE_REGEX = '%Y-%m-%dT%X%z'
-
 CLICKHOUSE_PARAMS = {
     'host': 'localhost',
     'user': os.getenv('HH_API_USERNAME'),
@@ -63,26 +58,18 @@ VACANCY_TYPES = {
     'employer_open_vacancies': int, # nullable
     'employer_trusted': int,
     'employer_alternate_url': str,
-    # 'employer_insider_interviews_id': 'List[int]', # nullable
-    # 'employer_insider_interviews_title': 'List[str]', # nullable
-    # 'employer_insider_interviews_url': 'List[str]', # nullable
     'employer_logo_urls_original': str, # nullable
     'employer_logo_urls_240': str, # nullable
     'employer_logo_urls_90': str, # nullable
     'employer_area_id': int, # nullable
     'employer_area_name': str, # nullable
     'employer_area_url': str, # nullable
-    # 'employer_relations': 'List[str]', # nullable
     'employer_blacklisted': int,
     'snippet_requirement': str, # nullable
     'snippet_responsibility': str, # nullable
     'counters_responses': int, # nullable
     'contacts_name': str, # nullable
     'contacts_email': str, # nullable
-    # 'contacts_phones_country': 'List[str]', # nullable
-    # 'contacts_phones_city': 'List[str]', # nullable
-    # 'contacts_phones_number': 'List[str]', # nullable
-    # 'contacts_phones_comment': 'List[str]', # nullable
     'schedule_id': str,
     'schedule_name': str,
     'working_days_id': str, # nullable
