@@ -1,3 +1,4 @@
+import time
 import argparse
 import logging
 
@@ -11,6 +12,10 @@ logger = logging.getLogger(__name__)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
+    parser.add_argument('--period',
+                        type=int,
+                        default=1,
+                        help='Period of sending API requests in seconds')
     parser.add_argument('--mask',
                         type=str,
                         default='https://api.hh.ru/vacancies',
@@ -39,3 +44,4 @@ if __name__ == '__main__':
     while True:
         vacancies = caller.get_batch()
         saver.save_batch(vacancies)
+        time.sleep(args.period)
