@@ -1,7 +1,10 @@
+import os
+
+
 CLICKHOUSE_PARAMS = {
     'host': 'localhost',
-    'user': '',
-    'password': '',
+    'user': os.getenv('HH_API_USERNAME'),
+    'password': os.getenv('HH_API_PASSWORD'),
 }
 
 VACANCY_TYPES = {
