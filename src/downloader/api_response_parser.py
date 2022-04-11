@@ -11,6 +11,14 @@ class APIResponseParser:
         self.types = types
 
     @staticmethod
+    def type_transformation(type_):
+        def func(feature):
+            if feature != None:
+                return type_(feature)
+            return feature
+        return func
+
+    @staticmethod
     def __dict_expand(key, dictionary):
         return {f'{key}_{subkey}': dictionary.get(subkey) for subkey in dictionary.keys()}
 
@@ -20,7 +28,11 @@ class APIResponseParser:
 
     def _map_fields(self, sample):
         default_dict = defaultdict(lambda: None, sample)
-        return {key: self.types[key](default_dict[key]) for key in self.types.keys()}
+        return {
+            key: self.type_transformation(
+                self.types[key])(default_dict[key]
+            ) for key in self.types.keys()
+        }
 
     def _expand_dict_before_inserting(self, sample):
         """Функция подготавливает батч данных перед вставкой в бд"""
