@@ -27,13 +27,14 @@ class APIResponseParser:
 
     def _map_fields(self, sample):
         default_dict = defaultdict(lambda: None, sample)
-        result = {}
-        for key in self.types.keys():
-            try:
-                result[key] = eval(self.types[key])(default_dict[key])
-            except:
-                result[key] = default_dict[key]
-        return result
+        # result = {}
+        # for key in self.types.keys():
+        #     try:
+        #         result[key] = eval(self.types[key])(default_dict[key])
+        #     except:
+        #         result[key] = default_dict[key]
+        # return result
+        return {key: defaultdict[key] for key in self.types.keys()}
 
     def _expand_dict_before_inserting(self, sample):
         """Функция подготавливает батч данных перед вставкой в бд"""
