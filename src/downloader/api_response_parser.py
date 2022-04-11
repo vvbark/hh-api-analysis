@@ -1,11 +1,6 @@
 import logging
-import mypy.api
 
-from abc import ABCMeta, abstractmethod
 from collections import defaultdict
-
-from .config import VACANCY_TYPES
-
 
 logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s', level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -13,7 +8,7 @@ logger = logging.getLogger(__name__)
 
 class APIResponseParser:
 
-    def __init__(self, types = VACANCY_TYPES):
+    def __init__(self, types):
         self.types = types
 
     @staticmethod
