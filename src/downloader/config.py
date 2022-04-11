@@ -5,7 +5,7 @@ non_type = lambda x: x
 
 def type_transformation(type_):
     def func(feature):
-        if feature:
+        if feature != None:
             return type_(feature)
         return feature
     return func
