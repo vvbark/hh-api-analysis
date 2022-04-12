@@ -1,5 +1,9 @@
 import os
 
+from datetime import datetime
+
+
+DATE_REGEX = '%Y-%m-%dT%X%z'
 
 CLICKHOUSE_PARAMS = {
     'host': 'localhost',
@@ -40,8 +44,8 @@ VACANCY_TYPES = {
     'address_metro_lng': float, # nullable
     'response_url': str, # nullable
     'sort_point_distance': float, # nullable
-    'published_at': str, # '%Y-%m-%dT%X%z'
-    'created_at': str, #  '%Y-%m-%dT%X%z'
+    'published_at': lambda xx: datetime.strptime(xx, DATE_REGEX), # '%Y-%m-%dT%X%z'
+    'created_at': lambda xx: datetime.strptime(xx, DATE_REGEX), #  '%Y-%m-%dT%X%z'
     'archived': int, # Находится ли данная вакансия в архиве
     'apply_alternate_url': str, # Ссылка на отклик на вакансию на сайте
     'insider_interview_id': int, # nullable
@@ -72,7 +76,7 @@ VACANCY_TYPES = {
     'contacts_email': str, # nullable
     'schedule_id': str,
     'schedule_name': str,
-    'working_days_id': str, # nullable
+    # 'working_days_id': str, # nullable
     'accept_temporary': int,
     'url': str,
 }
