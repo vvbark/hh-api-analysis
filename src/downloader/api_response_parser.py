@@ -29,8 +29,8 @@ class APIResponseParser:
     def _map_fields(self, sample):
         default_dict = defaultdict(lambda: None, sample)
         return {
-            key: self.type_transformation(
-                self.types[key])(default_dict[key]
+            key: self.type_transformation(self.types[key])(
+                default_dict[key]
             ) for key in self.types.keys()
         }
 
