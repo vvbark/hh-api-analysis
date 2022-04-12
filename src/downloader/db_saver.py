@@ -66,3 +66,4 @@ class DBSaver:
         batch = self.check_duplicates(batch)
         size = self.db_connection.execute(self.insert_query, batch)
         logger.info(f'Batch with size {size} saved to DB.')
+        logger.info(f'--------- There are {len(self.saved_ids)} saved samples now. ---------')

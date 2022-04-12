@@ -1,6 +1,7 @@
 import time
 import argparse
 import logging
+import shutil
 
 from api_caller import APICaller
 from db_saver import DBSaver
@@ -44,4 +45,6 @@ if __name__ == '__main__':
     while True:
         vacancies = caller.get_batch()
         saver.save_batch(vacancies)
+        total, used, _ = shutil.disk_usage("/")
+        logger.info(f'Hard disk filled in {used / total * 100}%')
         time.sleep(args.period)
