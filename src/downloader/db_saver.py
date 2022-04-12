@@ -34,7 +34,7 @@ class DBSaver:
         self.db_connection = Client(CLICKHOUSE_PARAMS)
 
         try:
-            _ = self.db_connection.execute(test_query)
+            _ = self.db_connection.execute(self.test_query)
             logger.debug('DB Connection established.')
         except:
             logger.error('ERROR in DB connection. Check parameters of connection')
