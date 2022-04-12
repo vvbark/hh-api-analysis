@@ -34,11 +34,6 @@ class APIResponseParser:
             ) for key in self.types.keys()
         }
 
-    def _expand_dict_before_inserting(self, sample):
-        """Функция подготавливает батч данных перед вставкой в бд"""
-        return sample
-
-    # TODO: Посмотреть как можно упростить этот подход к развертыванию json-а
     def _prepare_sample(self, sample):
         """Функция разворачивает вложенные словари и складывает ключи через символ `_`."""
         dicts = dict(filter(lambda x: type(x[1]) is dict, sample.items()))
@@ -64,7 +59,6 @@ class APIResponseParser:
         """Основной метод для """
         batch = map(self._prepare_sample, batch)
         batch = map(self._map_fields, batch)
-        batch = map(self._expand_dict_before_inserting, batch)
         batch = tuple(batch)
         logger.info(f'batch with length {len(batch)} parsed successfully')
         return batch
