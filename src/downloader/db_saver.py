@@ -45,16 +45,20 @@ class DBSaver:
         self.saved_ids = set(self.db_connection.execute(self.select_ids_query))
         logger.info(f'In DB already consists {len(self.saved_ids)} samples.')
 
+    @staticmethod
+    def get_ids(batch):
+        return set(map(lambda sample: sample.get('id'), batch))
+
     def check_duplicates(self, batch):
-        input_ids = set(map(lambda sample: sample.get('id'), batch))
+        input_ids = self.get_ids(batch)
         if not input_ids.isdisjoint(self.saved_ids):
             logger.warning(
                 f'Detected {len(self.saved_ids.difference(input_ids))} duplicate elements.',
             )
-            actual_ids = input_ids.difference(self.saved_ids)
-            batch = tuple(filter(lambda id_: id_ in actual_ids, actual_ids))
+            input_ids = input_ids.difference(self.saved_ids)
+            batch = tuple(filter(lambda id_: id_ in input_ids, input_ids))
 
-        self.saved_ids.update(actual_ids)
+        self.saved_ids.update(input_ids)
         return batch
 
     def save_batch(self, batch):
