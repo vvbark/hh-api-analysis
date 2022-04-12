@@ -31,13 +31,13 @@ class DBSaver:
 
     def __init__(self):
         self.parser = APIResponseParser(VACANCY_TYPES)
-        self.db_connection = Client(CLICKHOUSE_PARAMS)
+        self.db_connection = Client(**CLICKHOUSE_PARAMS)
 
         try:
             _ = self.db_connection.execute(self.test_query)
             logger.debug('DB Connection established.')
         except:
-            logger.error('ERROR in DB connection. Check parameters of connection')
+            logger.error('DB connection. Check parameters of connection')
             raise ValueError('Check input parameters:\n{}'.format(
                 CLICKHOUSE_PARAMS,
             ))
