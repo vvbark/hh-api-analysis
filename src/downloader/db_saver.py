@@ -43,7 +43,7 @@ class DBSaver:
             ))
 
         self.saved_ids = set(self.db_connection.execute(self.select_ids_query))
-        logger.info(f'In DB already consists {len(saved_vacancy_ids)} samples.')
+        logger.info(f'In DB already consists {len(self.saved_ids)} samples.')
 
     def check_duplicates(self, batch):
         input_ids = set(map(lambda sample: sample.get('id'), batch))
