@@ -79,9 +79,9 @@ class DBSaver:
             size = self.db_connection.execute(self.insert_query, batch)
         except:
             logger.warning(f'Error in inserting. Scipping.')
-            with open('./failed.json', 'w') as f:
-                enc = JSONDatetimeEncoder()
-                json.dump(batch, f, cls=enc)
+            # with open('./failed.json', 'w') as f:
+            #     enc = JSONDatetimeEncoder()
+            #     json.dump(batch, f, cls=enc)
 
         logger.info(f'Batch with size {size} saved to DB.')
         logger.info(f'--------- There are {len(self.saved_ids)} saved samples now. ---------')
