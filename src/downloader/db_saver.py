@@ -80,7 +80,8 @@ class DBSaver:
         except:
             logger.warning(f'Error in inserting. Scipping.')
             with open('./failed.json', 'w') as f:
-                json.dump(batch, f, cls=JSONDatetimeEncoder())
+                enc = JSONDatetimeEncoder()
+                json.dump(batch, f, cls=enc)
 
         logger.info(f'Batch with size {size} saved to DB.')
         logger.info(f'--------- There are {len(self.saved_ids)} saved samples now. ---------')
