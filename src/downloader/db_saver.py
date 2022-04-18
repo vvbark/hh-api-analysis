@@ -11,14 +11,12 @@ logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s', level=loggin
 logger = logging.getLogger(__name__)
 
 
-class JSONEncoder(json.JSONEncoder):
-
+class JSONDatetimeEncoder(json.JSONEncoder):
     # overload method default
     def default(self, obj):
-
         # Match all the types you want to handle in your converter
         if isinstance(obj, datetime):
-            return arrow.get(obj).isoformat()
+            return str(datetime)
         # Call the default method for other types
         return json.JSONEncoder.default(self, obj)
 
@@ -82,7 +80,7 @@ class DBSaver:
         except:
             logger.warning(f'Error in inserting. Scipping.')
             with open('./failed.json', 'w') as f:
-                json.dump(batch, f)
+                json.dump(batch, f, cls=JSONDatetimeEncoder())
 
         logger.info(f'Batch with size {size} saved to DB.')
         logger.info(f'--------- There are {len(self.saved_ids)} saved samples now. ---------')
