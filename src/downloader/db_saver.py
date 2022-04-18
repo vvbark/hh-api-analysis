@@ -76,12 +76,13 @@ class DBSaver:
         batch = self.parser.parse_batch(batch)
         batch = self.check_duplicates(batch)
         try:
-            self.current_size = self.db_connection.execute(self.insert_query, batch)
+            current_size = self.db_connection.execute(self.insert_query, batch)
+            logger.info(f'Batch with size {current_size} saved to DB.')
+
         except:
             logger.warning(f'Error in inserting. Scipping.')
             # with open('./failed.json', 'w') as f:
             #     enc = JSONDatetimeEncoder()
             #     json.dump(batch, f, cls=enc)
 
-        logger.info(f'Batch with size {self.current_size} saved to DB.')
         logger.info(f'--------- There are {len(self.saved_ids)} saved samples now. ---------')
