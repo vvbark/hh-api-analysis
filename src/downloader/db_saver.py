@@ -58,7 +58,7 @@ class DBSaver:
 
     @staticmethod
     def get_ids(batch):
-        return set(map(lambda sample: sample.get('id'), batch))
+        return set(map(lambda sample: (sample.get('id'), ), batch))
 
     def check_duplicates(self, batch):
         input_ids = self.get_ids(batch)
