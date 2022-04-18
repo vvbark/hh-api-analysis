@@ -11,6 +11,18 @@ logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s', level=loggin
 logger = logging.getLogger(__name__)
 
 
+class JSONEncoder(json.JSONEncoder):
+
+    # overload method default
+    def default(self, obj):
+
+        # Match all the types you want to handle in your converter
+        if isinstance(obj, datetime):
+            return arrow.get(obj).isoformat()
+        # Call the default method for other types
+        return json.JSONEncoder.default(self, obj)
+
+
 class DBSaver:
 
     insert_query = """
