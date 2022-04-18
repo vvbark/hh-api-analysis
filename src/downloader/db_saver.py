@@ -7,7 +7,7 @@ from config import VACANCY_TYPES, CLICKHOUSE_PARAMS
 from clickhouse_driver import Client
 
 
-logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s', level=logging.DEBUG)
+logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
