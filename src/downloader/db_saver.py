@@ -1,4 +1,5 @@
 import logging
+import json
 
 from api_response_parser import APIResponseParser
 from config import VACANCY_TYPES, CLICKHOUSE_PARAMS
@@ -35,7 +36,7 @@ class DBSaver:
 
         try:
             _ = self.db_connection.execute(self.test_query)
-            logger.debug('DB Connection established.')
+            logger.info('DB Connection established.')
         except:
             logger.error('DB connection. Check parameters of connection')
             raise ValueError('Check input parameters:\n{}'.format(
@@ -64,6 +65,12 @@ class DBSaver:
     def save_batch(self, batch):
         batch = self.parser.parse_batch(batch)
         batch = self.check_duplicates(batch)
-        size = self.db_connection.execute(self.insert_query, batch)
+        try:
+            size = self.db_connection.execute(self.insert_query, batch)
+        except:
+            logger.warning(f'Error in inserting. Scipping.')
+            with open('./failed.json', 'w') as f:
+                json.dump(batch, f)
+
         logger.info(f'Batch with size {size} saved to DB.')
         logger.info(f'--------- There are {len(self.saved_ids)} saved samples now. ---------')
