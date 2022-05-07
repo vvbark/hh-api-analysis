@@ -4,6 +4,8 @@ import logging
 logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+HH_API_CONSTRAINT = 2000
+
 
 class APICaller:
     def __init__(self, mask, **api_params):
@@ -11,12 +13,22 @@ class APICaller:
         self.params = api_params
 
         self.page = 1
-
         self.params.update({
             'page': self.page
         })
 
-    def get_batch(self):
+    def __iter__(self):
+        self.page = 1
+        self.params.update({
+            'page': self.page
+        })
+
+        return self
+
+    def __next__(self):
+        if self.page * self.params['per_page'] >= HH_API_CONSTRAINT:
+            raise StopIteration()
+
         self.params['page'] = self.page
         response = requests.get(self.mask, self.params)
 
