@@ -42,9 +42,9 @@ if __name__ == '__main__':
 
     logger.info('Downloader started')
 
-    while True:
-        vacancies = caller.get_batch()
-        saver.save_batch(vacancies)
+    # while True:
+    for batch in caller:
+        saver.save_batch(batch)
         total, used, _ = shutil.disk_usage("/")
         logger.info(f'Hard disk filled in {used / total * 100:.2f}%')
         time.sleep(args.period)
