@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding: utf8 -*-
 import time
 import argparse
 import logging
@@ -38,7 +40,7 @@ if __name__ == '__main__':
     }
 
     caller = APICaller(args.mask, **caller_params)
-    saver = DBSaver()
+    #saver = DBSaver()
 
     logger.info('Downloader started')
 
@@ -48,8 +50,8 @@ if __name__ == '__main__':
             caller_params1 = {'text': '{}'.format(i), 'per_page': args.per_page, 'area': args.area}
             caller = APICaller(args.mask, **caller_params1)
             for batch in caller:
-                print(batch[0])
-                saver.save_batch(batch)
+                #print(batch[0])
+                #saver.save_batch(batch)
                 total, used, _ = shutil.disk_usage("/")
                 logger.info(f'Hard disk filled in {used / total * 100:.2f}%')
                 time.sleep(args.period)
