@@ -48,7 +48,7 @@ class DBSaver:
 
     @staticmethod
     def filter_batch_by_ids(batch, ids):
-        return tuple(filter(lambda vacancy: (vacancy['id'], ) in ids, batch))
+        return tuple(filter(lambda sample: (sample['id'], ) in ids, batch))
 
     @staticmethod
     def get_ids(batch):
@@ -63,9 +63,10 @@ class DBSaver:
                 f'Detected {len(self.saved_ids.intersection(input_ids))} duplicated elements.',
             )
             # и отсеиваем общие элементы
-            input_ids = input_ids.difference(self.saved_ids)
+            input_ids = input_ids - self.saved_ids
             batch = self.filter_batch_by_ids(batch, input_ids) # фильтруем батч согласно уникальным id
 
+        assert self.get_ids(batch) == input_ids, 'Error in batch processing'
         return batch
 
     def save_batch(self, batch):
