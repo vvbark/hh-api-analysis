@@ -78,6 +78,6 @@ class DBSaver:
             self.saved_ids.update(self.get_ids(batch))
             logger.info(f'Batch with size {current_size} saved to DB.')
         except:
-            logger.warning(f'Error in inserting. Skipping.')
+            logger.error(f'Error in inserting. Skipping.')
 
         logger.info(f'--------- There are {len(self.saved_ids)} saved samples now. ---------')
