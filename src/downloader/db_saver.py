@@ -75,7 +75,6 @@ class DBSaver:
         try:
             current_size = self.db_connection.execute(self.insert_query, batch)
             logger.info(f'Batch with size {current_size} saved to DB.')
-
         except:
             logger.warning(f'Error in inserting. Skipping.')
 

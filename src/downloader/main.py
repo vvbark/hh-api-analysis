@@ -50,6 +50,9 @@ if __name__ == '__main__':
                 caller = APICaller(args.mask, **caller_params1)
                 logger.info("'{0}' query requested".format(profession))
                 for batch in caller:
+                    if len(batch) == 0:
+                        logger.warning('Empty batch received')
+                        break
                     saver.save_batch(batch)
                     total, used, _ = shutil.disk_usage("/")
                     logger.info(f'Hard disk filled in {used / total * 100:.2f}%')
