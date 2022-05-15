@@ -66,19 +66,17 @@ class DBSaver:
             input_ids = input_ids.difference(self.saved_ids)
             batch = self.filter_batch_by_ids(batch, input_ids) # фильтруем батч согласно уникальным id
 
-        self.saved_ids.update(input_ids)
         return batch
 
     def save_batch(self, batch):
         batch = self.parser.parse_batch(batch)
         batch = self.check_duplicates(batch)
 
-        current_size = self.db_connection.execute(self.insert_query, batch)
-        logger.info(f'Batch with size {current_size} saved to DB.')
-        # try:
-        #     current_size = self.db_connection.execute(self.insert_query, batch)
-        #     logger.info(f'Batch with size {current_size} saved to DB.')
-        # except:
-        #     logger.warning(f'Error in inserting. Skipping.')
+        try:
+            current_size = self.db_connection.execute(self.insert_query, batch)
+            logger.info(f'Batch with size {current_size} saved to DB.')
+            self.saved_ids.update(get_ids(batch))
+        except:
+            logger.warning(f'Error in inserting. Skipping.')
 
         logger.info(f'--------- There are {len(self.saved_ids)} saved samples now. ---------')
