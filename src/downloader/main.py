@@ -43,7 +43,7 @@ if __name__ == '__main__':
     logger.info('Downloader started')
 
     while True:
-        with open('src//downloader//prof.txt', encoding='utf-8') as prof:
+        with open('src/downloader/prof.txt', encoding='utf-8') as prof:
             for i in prof:
                 caller_params1 = {'text': '{i}', 'per_page': args.per_page, 'area': args.area}
                 caller = APICaller(args.mask, **caller_params1)
@@ -52,4 +52,3 @@ if __name__ == '__main__':
                     total, used, _ = shutil.disk_usage("/")
                     logger.info(f'Hard disk filled in {used / total * 100:.2f}%')
                     time.sleep(args.period)
-
