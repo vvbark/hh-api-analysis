@@ -67,7 +67,7 @@ class DBSaver:
                 f'Detected {len(self.saved_ids.difference(input_ids))} duplicate elements.',
             )
             input_ids = input_ids.difference(self.saved_ids)
-            batch = tuple(filter(lambda id_: id_ in input_ids, input_ids))
+            batch = tuple(filter(lambda vacancy: vacancy['id'] in input_ids, batch))
 
         self.saved_ids.update(input_ids)
         return batch
@@ -81,8 +81,5 @@ class DBSaver:
 
         except:
             logger.warning(f'Error in inserting. Scipping.')
-            # with open('./failed.json', 'w') as f:
-            #     enc = JSONDatetimeEncoder()
-            #     json.dump(batch, f, cls=enc)
 
         logger.info(f'--------- There are {len(self.saved_ids)} saved samples now. ---------')
