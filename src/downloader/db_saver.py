@@ -64,7 +64,7 @@ class DBSaver:
             )
             # и отсеиваем общие элементы
             input_ids = input_ids.difference(self.saved_ids)
-            batch = filter_batch_by_ids(batch, input_ids) # фильтруем батч согласно уникальным id
+            batch = self.filter_batch_by_ids(batch, input_ids) # фильтруем батч согласно уникальным id
 
         self.saved_ids.update(input_ids)
         return batch
