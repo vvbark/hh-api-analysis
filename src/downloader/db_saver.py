@@ -11,16 +11,6 @@ logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s', level=loggin
 logger = logging.getLogger(__name__)
 
 
-class JSONDatetimeEncoder(json.JSONEncoder):
-    # overload method default
-    def default(self, obj):
-        # Match all the types you want to handle in your converter
-        if isinstance(obj, datetime):
-            return str(datetime)
-        # Call the default method for other types
-        return json.JSONEncoder.default(self, obj)
-
-
 class DBSaver:
 
     insert_query = """
@@ -57,17 +47,24 @@ class DBSaver:
         logger.info(f'In DB already consists {len(self.saved_ids)} samples.')
 
     @staticmethod
+    def filter_batch_by_ids(batch, ids):
+        return tuple(filter(lambda vacancy: (vacancy['id'], ) in ids, batch))
+
+    @staticmethod
     def get_ids(batch):
         return set(map(lambda sample: (sample.get('id'), ), batch))
 
     def check_duplicates(self, batch):
         input_ids = self.get_ids(batch)
+        # если есть пересечение
         if not input_ids.isdisjoint(self.saved_ids):
+            # выводим сколько таких пересечений обнаружено
             logger.warning(
-                f'Detected {len(self.saved_ids.intersection(input_ids))} duplicate elements.',
+                f'Detected {len(self.saved_ids.intersection(input_ids))} duplicated elements.',
             )
+            # и отсеиваем общие элементы
             input_ids = input_ids.difference(self.saved_ids)
-            batch = tuple(filter(lambda vacancy: vacancy['id'] in input_ids, batch))
+            batch = filter_batch_by_ids(batch, input_ids) # фильтруем батч согласно уникальным id
 
         self.saved_ids.update(input_ids)
         return batch
@@ -80,6 +77,6 @@ class DBSaver:
             logger.info(f'Batch with size {current_size} saved to DB.')
 
         except:
-            logger.warning(f'Error in inserting. Scipping.')
+            logger.warning(f'Error in inserting. Skipping.')
 
         logger.info(f'--------- There are {len(self.saved_ids)} saved samples now. ---------')
