@@ -73,11 +73,15 @@ class DBSaver:
         batch = self.parser.parse_batch(batch)
         batch = self.check_duplicates(batch)
 
-        try:
-            current_size = self.db_connection.execute(self.insert_query, batch)
-            self.saved_ids.update(get_ids(batch))
-            logger.info(f'Batch with size {current_size} saved to DB.')
-        except:
-            logger.warning(f'Error in inserting. Skipping.')
+        current_size = self.db_connection.execute(self.insert_query, batch)
+        self.saved_ids.update(get_ids(batch))
+        logger.info(f'Batch with size {current_size} saved to DB.')
+
+        # try:
+        #     current_size = self.db_connection.execute(self.insert_query, batch)
+        #     self.saved_ids.update(get_ids(batch))
+        #     logger.info(f'Batch with size {current_size} saved to DB.')
+        # except:
+        #     logger.warning(f'Error in inserting. Skipping.')
 
         logger.info(f'--------- There are {len(self.saved_ids)} saved samples now. ---------')
