@@ -47,6 +47,7 @@ if __name__ == '__main__':
             for i in prof:
                 caller_params1 = {'text': '{i}', 'per_page': args.per_page, 'area': args.area}
                 caller = APICaller(args.mask, **caller_params1)
+                logger.info(f'{i} query requested')
                 for batch in caller:
                     saver.save_batch(batch)
                     total, used, _ = shutil.disk_usage("/")
