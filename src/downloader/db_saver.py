@@ -64,7 +64,7 @@ class DBSaver:
         input_ids = self.get_ids(batch)
         if not input_ids.isdisjoint(self.saved_ids):
             logger.warning(
-                f'Detected {len(self.saved_ids.difference(input_ids))} duplicate elements.',
+                f'Detected {len(self.saved_ids.intersection(input_ids))} duplicate elements.',
             )
             input_ids = input_ids.difference(self.saved_ids)
             batch = tuple(filter(lambda vacancy: vacancy['id'] in input_ids, batch))
