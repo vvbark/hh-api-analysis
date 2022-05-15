@@ -6,6 +6,7 @@ import shutil
 from api_caller import APICaller
 from db_saver import DBSaver
 
+from config import PROFESSIONS_PATH
 
 logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -43,11 +44,11 @@ if __name__ == '__main__':
     logger.info('Downloader started')
 
     while True:
-        with open('src/downloader/prof.txt', encoding='utf-8') as prof:
-            for i in prof:
-                caller_params1 = {'text': '{i}', 'per_page': args.per_page, 'area': args.area}
+        with open(PROFESSIONS_PATH, encoding='utf-8') as professions:
+            for profession in professions:
+                caller_params1 = {'text': '{0}'.format(profession), 'per_page': args.per_page, 'area': args.area}
                 caller = APICaller(args.mask, **caller_params1)
-                logger.info(f'{i} query requested')
+                logger.info(''{0}' query requested'.format(profession))
                 for batch in caller:
                     saver.save_batch(batch)
                     total, used, _ = shutil.disk_usage("/")

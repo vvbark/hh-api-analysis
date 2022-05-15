@@ -12,6 +12,8 @@ CLICKHOUSE_PARAMS = {
     'database': 'hh_api',
 }
 
+PROFESSIONS_PATH = 'src/downloader/prof.txt'
+
 VACANCY_TYPES = {
     'id': int, # Идентификатор вакансии
     'premium': int,
