@@ -48,7 +48,7 @@ if __name__ == '__main__':
             for profession in professions:
                 caller_params1 = {'text': '{0}'.format(profession), 'per_page': args.per_page, 'area': args.area}
                 caller = APICaller(args.mask, **caller_params1)
-                logger.info(''{0}' query requested'.format(profession))
+                logger.info("'{0}' query requested".format(profession))
                 for batch in caller:
                     saver.save_batch(batch)
                     total, used, _ = shutil.disk_usage("/")
