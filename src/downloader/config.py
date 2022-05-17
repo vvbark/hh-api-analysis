@@ -46,12 +46,12 @@ VACANCY_TYPES = {
     'address_metro_lat': float, # nullable
     'address_metro_lng': float, # nullable
     'response_url': str, # nullable
-    'sort_point_distance': float, # nullable
+    'sort_point_distance': str, # nullable
     'published_at': lambda xx: datetime.strptime(xx, DATE_REGEX), # '%Y-%m-%dT%X%z'
     'created_at': lambda xx: datetime.strptime(xx, DATE_REGEX), #  '%Y-%m-%dT%X%z'
     'archived': int, # Находится ли данная вакансия в архиве
     'apply_alternate_url': str, # Ссылка на отклик на вакансию на сайте
-    'insider_interview_id': int, # nullable
+    'insider_interview_id': str, # nullable
     'insider_interview_url': str, # nullable Интервью о жизни в компании
     'alternate_url': str, # Ссылка на представление вакансии на сайте
     'employer_id': int,
