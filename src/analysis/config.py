@@ -35,8 +35,8 @@ class SparkConnection:
 
         return dataframe
 
-    def close(self):
-        self.spark.close()
+    def stop(self):
+        self.spark.stop()
 
     def open(self, app_name):
         self.__init__(app_name)
