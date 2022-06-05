@@ -91,4 +91,4 @@ def __main__():
     plot_and_save_colored_map(image, mean_density_resized, 'Mean Salary', 'Reds', 'images/MeanSalary.png')
     plot_and_save_colored_map(image, count_density_resized, 'Vacancies Count', 'Blues', 'images/VacanciesCount.png')
 
-    spark.close()
+    spark.stop()
