@@ -22,7 +22,7 @@ coefficient = (max_lat - min_lat) / (max_lng - min_lng)
 step = 30
 
 # Define the map file
-image_filepath = 'saint-petersburg-map.jpg'
+image_filepath = 'images/saint-petersburg-map.jpg'
 
 
 def plot_and_save_colored_map(
@@ -88,5 +88,5 @@ def __main__():
     mean_density_resized = cv2.resize(mean_density, dsize=image.shape[:2], interpolation=cv2.INTER_CUBIC).T
     count_density_resized = cv2.resize(count_density, dsize=image.shape[:2], interpolation=cv2.INTER_CUBIC).T
 
-    plot_and_save_colored_map(image, mean_density_resized, 'Mean Salary', 'Reds', 'MeanSalary.png')
-    plot_and_save_colored_map(image, count_density_resized, 'Vacancies Count', 'Blues', 'VacanciesCount.png')
+    plot_and_save_colored_map(image, mean_density_resized, 'Mean Salary', 'Reds', 'images/MeanSalary.png')
+    plot_and_save_colored_map(image, count_density_resized, 'Vacancies Count', 'Blues', 'images/VacanciesCount.png')
