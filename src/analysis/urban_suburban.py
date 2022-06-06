@@ -15,6 +15,8 @@ spark = SparkConnection(APP_NAME)
 
 def main():
     df = spark.read()
+
+    # Select urban area vacancies using latitude and longitude constraints
     city = df.select('area_id', 
                  'address_city', 
                  'salary_from', 
@@ -27,7 +29,8 @@ def main():
         & (F.col('address_lng') < 30.5)
         & (F.col('address_lat') < 60.3))
 
-    suburb = df.select('area_id', 'address_city', 'salary_from', 'salary_to', 'schedule_name')\
+    # Same for suburban area, but exclude a city
+    suburb = df.select('area_id', 'address_city', 'salary_from', 'salary_to')\
     .where(
         (F.col('area_id') == 2)\
         & (F.col('address_city') != 'Санкт-Петербург')\
@@ -41,12 +44,12 @@ def main():
     .where(df['address_lng'] < 31) \
     .where(df['address_lat'] < 61)
 
+    # Efficiently compute histogram using RDD API
     city_hist = city.select('salary_from').rdd.flatMap(lambda x: x).histogram(75)
     city_hist = pd.DataFrame(
         list(zip(*city_hist)), 
         columns=['bin', 'freq']
     ).set_index('bin')
-
     city_hist['freq'] = city_hist['freq'].apply(np.log10)
 
     suburb_hist = suburb.select('salary_from').rdd.flatMap(lambda x: x).histogram(35)
@@ -54,9 +57,9 @@ def main():
         list(zip(*suburb_hist)), 
         columns=['bin', 'freq']
     ).set_index('bin')
-
     suburb_hist['freq'] = suburb_hist['freq'].apply(np.log10)
 
+    # Plot histograms as barcharts
     fig = make_subplots(2, 1, shared_xaxes=True)
     fig.add_trace(
         go.Bar(x=city_hist.index, y=city_hist['freq'], name='urban'), row=1, col=1)
