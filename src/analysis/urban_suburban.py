@@ -20,7 +20,12 @@ def main():
                  'salary_from', 
                  'salary_to',
                  'schedule_name')\
-    .where((F.col('area_id') == 2) & (F.col('address_city') == 'Санкт-Петербург'))
+    .where((F.col('area_id') == 2)\
+        & (F.col('address_city') == 'Санкт-Петербург')\
+        & (F.col('address_lng') > 30.2)
+        & (F.col('address_lat') > 59.5)
+        & (F.col('address_lng') < 30.5)
+        & (F.col('address_lat') < 60.3))
 
     suburb = df.select('area_id', 'address_city', 'salary_from', 'salary_to', 'schedule_name')\
     .where(
