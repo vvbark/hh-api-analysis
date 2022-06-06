@@ -29,12 +29,13 @@ def main():
 
     suburb = df.select('area_id', 'address_city', 'salary_from', 'salary_to', 'schedule_name')\
     .where(
-        (F.col('area_id') == 2) &
-        (F.col('address_city') != 'Санкт-Петербург')&
-        (F.col('address_lng') < 30.5) |
-        (F.col('address_lat') < 59.5) |
-        (F.col('address_lng') > 30.5) |
-        (F.col('address_lat') > 60.3))\
+        (F.col('area_id') == 2)\
+        & (F.col('address_city') != 'Санкт-Петербург')\
+        & (
+              (F.col('address_lng') < 30.5)\
+            | (F.col('address_lat') < 59.5)\
+            | (F.col('address_lng') > 30.5)\
+            | (F.col('address_lat') > 60.3)))\
     .where(df['address_lng'] > 29) \
     .where(df['address_lat'] > 58) \
     .where(df['address_lng'] < 31) \
