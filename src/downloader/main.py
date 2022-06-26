@@ -55,6 +55,7 @@ if __name__ == '__main__':
                         break
                     saver.save_batch(batch)
                     total, used, _ = shutil.disk_usage("/")
-                    logger.info(f'Hard disk filled in {used / total * 100:.2f}%')
+                    logger.info(f'area={args.area}; Hard disk filled in {used / total * 100:.2f}%')
                     if args.period != 0:
                         time.sleep(args.period)
+                        

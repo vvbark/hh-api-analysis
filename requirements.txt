@@ -1,1 +1,11 @@
 requests
+plotly
+kaleido
+clickhouse-driver
+pandas
+numpy
+pillow
+opencv-python
+matplotlib
+pyspark[sql]
+findspark
