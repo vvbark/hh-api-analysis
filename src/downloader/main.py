@@ -58,5 +58,4 @@ if __name__ == '__main__':
                     logger.info(f'area={args.area}; Hard disk filled in {used / total * 100:.2f}%')
                     if args.period != 0:
                         time.sleep(args.period)
-
-        args.area += 1
+                        
