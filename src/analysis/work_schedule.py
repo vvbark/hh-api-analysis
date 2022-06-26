@@ -67,3 +67,7 @@ def main():
     }, inplace = True)
 
     save_graph(df, 'images/work-schedule.png')
+
+
+if __name__ == '__main__':
+    main()
