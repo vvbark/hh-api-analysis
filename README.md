@@ -121,8 +121,7 @@ What about concrete fields that **hh API** responses? It returns a number of int
 | city | 0, 0% | Санкт-Петербург, 57% | String | 4 |
 | salary | 942.319, 33% | (31800.0, 40000.0], 15% | Float32 | 2471 |
 | address | 1.106.745, 39% | Санкт-Петербург, Московский проспект, 1.1% | String | 34092 |
-| coordinates | 979.058, 34% | (55.635, 55.708],
-(37.597, 37.635], 10%, 10% | Float32 | 47527 |
+| coordinates | 979.058, 34% | (55.635, 55.708], (37.597, 37.635], 10%, 10% | Float32 | 47527 |
 | metro station | 1.171.335, 41% | Ладожская, 1.6% | String | 379 |
 | date of publishing | 0, 0% | 2022-01-30, 7.8% | Date | 129 |
 | employer name | 0, 0% | Пятёрочка, 0.57% | String | 55545 |
