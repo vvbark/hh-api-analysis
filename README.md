@@ -9,11 +9,7 @@ Ilia Moiseev - J41325c
 Artemii Glaznev - J41325c
 > 
 
-Code is available at:
-
-Project presentation: 
-
-https://github.com/vvbark/hh-api-analysis
+Code is available at:  https://github.com/vvbark/hh-api-analysis
 
 ---
 
@@ -56,21 +52,21 @@ Additionally this layer implements data validation in form of schema check. It c
 ### **The usage and first issues**
 
 ```python
-		caller_params = {
-        'per_page': args.per_page,
-        'area': args.area
-    }
+caller_params = {
+    'per_page': args.per_page,
+    'area': args.area
+}
 
-    caller = APICaller(args.mask, **caller_params)
-    saver = DBSaver() # ResponseParser call inside
+caller = APICaller(args.mask, **caller_params)
+saver = DBSaver() # ResponseParser call inside
 
-    logger.info('Downloader started')
+logger.info('Downloader started')
 
-    while True:
-        vacancies = caller.get_batch()
-        saver.save_batch(vacancies)
+while True:
+    vacancies = caller.get_batch()
+    saver.save_batch(vacancies)
 
-				time.sleep(args.period)
+    time.sleep(args.period)
 ```
 
 At first there was no problems when we tried to use this pipeline for the first time. We specified the area of interest - SPb and nothing else…
@@ -119,11 +115,7 @@ While parsing open **hh API** we collected *2.827.612* vacancies. Some table des
 
 What about concrete fields that **hh API** responses? It returns a number of interesting fields such as id, name, city, salary, address and coordinates, closest metro station, date of publishing, employer name, schedule rule and mush other. Let’s consider a brief description of represented fields:
 
-| Field name /
-Description field | None values /
-percentage | Most frequently
-value, percentage
-(quantile for numeric) | Data type | Count of unique values |
+| Field name Description field | None values percentage | Most frequently value, percentage (quantile for numeric) | Data type | Count of unique values |
 | --- | --- | --- | --- | --- |
 | name | 0, 0% | Менеджер по продажам, 1.4% | String | 137882 |
 | city | 0, 0% | Санкт-Петербург, 57% | String | 4 |
