@@ -48,7 +48,7 @@ def get_grid(step_ox: int = 10, step_oy: int = 10) -> tuple:
     return grid_ox, grid_oy
 
 
-def __main__():
+def main():
 
     vacancies_df = spark.read()
 
@@ -92,3 +92,7 @@ def __main__():
     plot_and_save_colored_map(image, count_density_resized, 'Vacancies Count', 'Blues', 'images/VacanciesCount.png')
 
     spark.stop()
+
+if __name__ == '__main__':
+    main()
+    
