@@ -1,15 +1,15 @@
 # Report on Big Data Infrastructure project
 
-2022/06/11 
+2022/06/26
 
 Team DataStorm:
 
-> Vladimir Barkovskii - J41332c
-Ilia Moiseev - J41325c
+> Vladimir Barkovskii - J41332c\
+Ilia Moiseev - J41325c\
 Artemii Glaznev - J41325c
 > 
 
-Code is available at:  https://github.com/vvbark/hh-api-analysis
+[Project presentation](https://docs.google.com/presentation/d/13wd82lnpOcz9Jy1xW8mlBk_9by2wd-Rz/edit?usp=sharing&ouid=102358248161692181834&rtpof=true&sd=true)
 
 ---
 
@@ -27,7 +27,7 @@ The goal was to collect and analyze vacancies with all their properties and desc
 
 The collection of data started from studying documentation on **hh API**. It was feasible and easy enough to use to not to consider the option of scraping, so no framework was needed.
 
-For storage of data we chose **Clickhouse** database. It is **column-oriented database management system that allows analysis of data that is updated in real time. Clickhouse is fast, built for efficient queries and has good compression rate. We chose it, because we intended to build aggregating queries and not for row updating or row selects.
+For storage of data we chose **Clickhouse**. It is **column-oriented database management system that allows analysis of data that is updated in real time. Clickhouse is fast, built for efficient queries and has good compression rate. We chose it, because we intended to build aggregating queries and not for row updating or row selects.
 
 For data processing we chose **Spark** for efficient processing of batches of data. At the beginning we considered Storm, but then discarded this idea since we didn’t want streaming processing and live updates.
 
@@ -39,7 +39,7 @@ Headhunter API works just like regular search - you enter the keywords, specify 
 
 We chose to implement independent entities to encapsulate calls to the API, parsing responses and the work with database.
 
-![Untitled Diagram (3).png](readme-images/Untitled_Diagram_(3).png)
+![Untitled Diagram (3).png](Report%20on%20Big%20Data%20Infrastructure%20project%20152d220b7fc644c88024b71d8207312f/Untitled_Diagram_(3).png)
 
 **APICaller** manages hh API specifics including pagination, parameters and limits. Basically it implements Iterator that given search parameters returns batches of objects on `__next__`
 
@@ -52,24 +52,24 @@ Additionally this layer implements data validation in form of schema check. It c
 ### **The usage and first issues**
 
 ```python
-caller_params = {
-    'per_page': args.per_page,
-    'area': args.area
-}
+	caller_params = {
+        'per_page': args.per_page,
+        'area': args.area
+    }
 
-caller = APICaller(args.mask, **caller_params)
-saver = DBSaver() # ResponseParser call inside
+    caller = APICaller(args.mask, **caller_params)
+    saver = DBSaver() # ResponseParser call inside
 
-logger.info('Downloader started')
+    logger.info('Downloader started')
 
-while True:
-    vacancies = caller.get_batch()
-    saver.save_batch(vacancies)
+    while True:
+        vacancies = caller.get_batch()
+        saver.save_batch(vacancies)
 
-    time.sleep(args.period)
+		time.sleep(args.period)
 ```
 
-At first there was no problems when we tried to use this pipeline for the first time. We specified the area of interest - SPb and nothing else…
+There were no problems when we tried to use this pipeline for the first time.
 
 Until we crushed in the 2000 limit.
 
@@ -86,8 +86,8 @@ while True:
     with open(PROFESSIONS_PATH, encoding='utf-8') as professions:
         for profession in professions:
             caller_params = {'text': str(profession), 
-														 'per_page': args.per_page, 
-														 'area': args.area}
+								'per_page': args.per_page, 
+								'area': args.area}
             caller = APICaller(args.mask, **caller_params)
             
             for batch in caller:
@@ -106,27 +106,35 @@ With relatively easy solution like this we managed to solve the problem of stric
 
 ## Dataset description
 
-While parsing open **hh API** we collected *2.827.612* vacancies. Some table description represented below:
+While parsing open **hh API** we collected *1.432.515* vacancies. Some table description represented below:
 
-| Number of rows | 2.827.612 rows |
+| Number of rows | 1.432.515 rows |
 | --- | --- |
 | Number of columns | 66 columns |
-| Table size | 1.126.820.144 bytes ~1.05 GiB  |
+| Table size | 563.410.072 bytes ~0.55 GiB  |
 
 What about concrete fields that **hh API** responses? It returns a number of interesting fields such as id, name, city, salary, address and coordinates, closest metro station, date of publishing, employer name, schedule rule and mush other. Let’s consider a brief description of represented fields:
 
 | Field name Description field | None values percentage | Most frequently value, percentage (quantile for numeric) | Data type | Count of unique values |
 | --- | --- | --- | --- | --- |
 | name | 0, 0% | Менеджер по продажам, 1.4% | String | 137882 |
-| city | 0, 0% | Санкт-Петербург, 57% | String | 4 |
-| salary | 942.319, 33% | (31800.0, 40000.0], 15% | Float32 | 2471 |
-| address | 1.106.745, 39% | Санкт-Петербург, Московский проспект, 1.1% | String | 34092 |
+| city | 0, 0% | Москва, 57% | String | 4 |
+| salary | 346.787, 33% | (31800.0, 40000.0], 15% | Float32 | 2471 |
+| address | 478.651, 39% | Санкт-Петербург, Московский проспект, 1.1% | String | 34092 |
 | coordinates | 979.058, 34% | (55.635, 55.708], (37.597, 37.635], 10%, 10% | Float32 | 47527 |
-| metro station | 1.171.335, 41% | Ладожская, 1.6% | String | 379 |
+| metro station | 587.331, 41% | Ладожская, 1.6% | String | 379 |
 | date of publishing | 0, 0% | 2022-01-30, 7.8% | Date | 129 |
 | employer name | 0, 0% | Пятёрочка, 0.57% | String | 55545 |
 | schedule rule | 0, 0% | Полный день, 95.2% | String | 5 |
-| id | 0, 0% | — | UInt32 | 2.827.612 |
+| id | 0, 0% | — | UInt32 | 1.432.515  |
+
+### DB Connection
+
+The first problem was to efficiently connect Spark with Clickhouse.
+
+For this problem we used native JDBC from this repo
+
+[https://github.com/housepower/ClickHouse-Native-JDBC](https://github.com/housepower/ClickHouse-Native-JDBC)
 
 ## Pipelines description
 
@@ -225,6 +233,20 @@ city_hist['freq'] = city_hist['freq'].apply(np.log10)
 # ...
 ```
 
+### Visualization of vacancies by metro stations
+
+Barplot of the number of vacancies near each metro station was made as following:
+
+```python
+# ...
+
+saintpi = data.loc[data['address_city'] == 'Санкт-Петербург']
+bar_plot = saintpi.address_metro_station_name.value_counts().rename_axis('metro_station')
+fig = sain[:70].plot.bar('metro_station', 'amount')
+
+# ...
+```
+
 # Analysis
 
 ## Heatmap of salaries
@@ -239,7 +261,7 @@ Heatmap of vacancy count distribution above Saint-Petersburg
 
 ## Work schedule dynamic
 
-![Dynamic of vacancies work schedules](readme-images/work-schedules.png)
+![Dynamic of vacancies work schedules](readme-images/Untitled.png)
 
 Dynamic of vacancies work schedules
 
@@ -247,4 +269,12 @@ Dynamic of vacancies work schedules
 
 ![newplot.png](readme-images/newplot.png)
 
+## Visualization of vacancies by metro stations
+
+![bar_plot.png](readme-images/bar_plot.png)
+
+Barplot with the number of vacancies at each metro station
+
 # Conclusion
+
+As a result of this project, we implemented the collection of data through the API, the storage of the collected data in a database, and analysis of this data using Spark.
