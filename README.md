@@ -261,7 +261,7 @@ Heatmap of vacancy count distribution above Saint-Petersburg
 
 ## Work schedule dynamic
 
-![Dynamic of vacancies work schedules](readme-images/Untitled.png)
+![Dynamic of vacancies work schedules](readme-images/work-schedule.png)
 
 Dynamic of vacancies work schedules
 
