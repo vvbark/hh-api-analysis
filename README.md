@@ -39,7 +39,7 @@ Headhunter API works just like regular search - you enter the keywords, specify 
 
 We chose to implement independent entities to encapsulate calls to the API, parsing responses and the work with database.
 
-![Untitled Diagram (3).png](Report%20on%20Big%20Data%20Infrastructure%20project%20152d220b7fc644c88024b71d8207312f/Untitled_Diagram_(3).png)
+![Untitled Diagram (3).png](readme-images/Untitled_Diagram_(3).png)
 
 **APICaller** manages hh API specifics including pagination, parameters and limits. Basically it implements Iterator that given search parameters returns batches of objects on `__next__`
 
